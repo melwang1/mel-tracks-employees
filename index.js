@@ -2,25 +2,7 @@ const inquirer = require("inquirer");
 const db = require("./dbserver");
 
 const questions = [
-    {
-        type: "input",
-        name: "text",
-        message: "What is the name of the role?"
-    },
-
-    {
-        type: "input",
-        name: "text",
-        message: "What is the salery of the role?"
-    },
-
-    {
-        type: "list",
-        name: "text",
-        message: "Which department does the role belong to?",
-        choices: ['Engineering', 'Finance', 'Legal', 'Sale', 'Service']
-
-    },
+ 
 
     {
         type: "list",
@@ -91,8 +73,8 @@ function init() {
                 case "View all Roles":
                     viewAllRoles();
                     break;
-                case "Add Roles":
-                    addRoles();
+                case "Add Role":
+                    addRole();
                     break;
                 case "View all Departments":
                     viewAllDepartments();
@@ -153,6 +135,78 @@ function addDepartment() {
     }]
     ).then(function (answer) {
         db.query("INSERT INTO department (name) VALUES (?);", answer.departmentName, function (err, result) {
+            if (err) throw err;
+            console.log(result);
+            init()
+        })
+    })
+}
+
+function addRole() {
+    console.log("Add new roles to Department")
+    inquirer.prompt([
+        {
+            type: "input",
+            name: "title",
+            message: "What is the name of the role?"
+        },
+    
+        {
+            type: "input",
+            name: "salary",
+            message: "What is the salery of the role?"
+        },
+    
+        {
+            type: "list",
+            name: "department",
+            message: "Which department does the role belong to?",
+            choices: [{name:"Sales",value:1},{name:"Engineering",value:2}]
+    
+        },
+    ]
+    ).then(function (answer) {
+        db.query("INSERT INTO role (title, salary, department_id) VALUES(?,?,?);", [answer.title,answer.salary,answer.department], function (err, result) {
+            if (err) throw err;
+            console.log(result);
+            init()
+        })
+    })
+}
+
+function addEmployee() {
+    console.log("Add new roles to Department")
+    inquirer.prompt([
+        {
+            type: "input",
+            name: "first_name",
+            message: "What is your first name ?"
+        },
+    
+        {
+            type: "input",
+            name: "last_name",
+            message: "What is your last name?"
+        },
+    
+        {
+            type: "list",
+            name: "role_id",
+            message: "What is the name of the role?",
+            choices: [{name:"Sales Associate",value:1},{name:"Sales Manager",value:2}]
+    
+        },
+
+        {
+            type: "list",
+            name: "manager_id",
+            message: "What is the name of the manager?",
+            choices: [{name:"Anna Foster",value:3},{name:"Christian Bell",value:5}]
+    
+        },
+    ]
+    ).then(function (answer) {
+        db.query("INSERT INTO employee (first_name, last_name, role_id, manager_id) VALUES(?,?,?,?);", [answer.first_name,answer.last_name,answer.role_id, answer.manager_id], function (err, result) {
             if (err) throw err;
             console.log(result);
             init()
