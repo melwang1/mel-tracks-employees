@@ -1,5 +1,21 @@
 {
+  "name": "mel-tracks-employees",
+  "version": "1.0.0",
+  "description": "Mysql CLI app with inquirer",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start":"node index.js"
+  },
+  "keywords": [
+    "Mysql",
+    "node",
+    "inquirer"
+  ],
+  "author": "Melanie Wang",
+  "license": "ISC",
   "dependencies": {
+    "console.table": "^0.10.0",
     "inquirer": "^8.2.4",
     "mysql2": "^3.3.3"
   }
